@@ -1,0 +1,16 @@
+{
+    "server":{
+        "url": "https://lxerptest.66123123.com",
+        "username": "caohongyu",
+        "password": "1qaz@WSX"
+    },
+    "database":{
+        "host": "172.31.2.58",
+        "port": "3307",
+        "username": "leading",
+        "password": "leading2019",
+        "database_finance": "financedb",
+        "database_leading": "LeadingDBTest",
+        "database_user": "userdbtest01"
+    } 
+}

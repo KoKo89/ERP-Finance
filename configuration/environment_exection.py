@@ -18,7 +18,6 @@ for each in environments:
     if exection in each :
         with open(each,'r',encoding='utf8')as fp:
             json_data = json.load(fp)
-            print(json_data)
             server_url = json_data['server']['url']
             server_username = json_data['server']['username']
             server_password = json_data['server']['password']

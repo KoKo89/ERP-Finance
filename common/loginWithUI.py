@@ -39,6 +39,3 @@ def get_token():
 
     driver.quit()
     return token
-
-token = get_token()
-print(token)

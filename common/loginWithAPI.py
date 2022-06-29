@@ -21,6 +21,7 @@ def get_keys():
     key = response.json()['data']['key']
     public_key = response.json()['data']['publicKey']
     private_key = key + environment_exection.server_password
+    print("密码：===========" + environment_exection.server_password)
     return key, public_key, private_key
 
 
@@ -41,16 +42,14 @@ def encrypt_password(public_key, private_key):
 def get_token():
     key, public_key, private_key = get_keys()
     password_encrypt = encrypt_password(public_key, private_key)
-    
-    print("password_encrypt:===" + password_encrypt)
 
     # 发送token api，获取权限
     token_url = environment_exection.server_url + "/api/authorization-server/oauth/token"
+    print("token_url:========" + token_url)
     data = 'grant_type=password&username=' + environment_exection.server_username +'&password=' + password_encrypt
     print(data)
     token_headers = {'Accept': 'application/json, text/plain, */*',
                      'Authorization': 'Basic V0VCQVBQOldFQkFQUA==',
-                     'channel': 'erpWeb',
                      'Content-Type': 'application/x-www-form-urlencoded',
                      'key': key
                      }

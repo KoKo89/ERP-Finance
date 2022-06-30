@@ -1,0 +1,40 @@
+{
+    "Bill_list api":{
+        "url": "/api/finance-service/bill/list",
+        "Request Method": "POST",
+        "body": {
+            "noType": 1,
+            "customerId": null,
+            "customerName": null,
+            "dimensionList": [],
+            "endTime": null,
+            "no": "KHDZ20220630000178",
+            "documentNo": "",
+            "pageNum": 1,
+            "pageSize": 10,
+            "partyBId": null,
+            "partyBName": null,
+            "projectId": null,
+            "projectName": null,
+            "reviewStatusList": [],
+            "serverDepartmentId": null,
+            "serverId": null,
+            "serverName": null,
+            "staffId": null,
+            "staffName": null,
+            "startTime": null,
+            "statusList": [],
+            "billTypes": [],
+            "timeType": 1,
+            "type": null,
+            "firstLevelModule": "财务",
+            "secondLevelModule": "客户结算",
+            "thirdLevelModule": "客户对账单",
+            "billCustomerDepartmentId": null
+        }
+    } ,
+    "Bill_delete api":{
+        "url": "/api/finance-service/bill/draft-all",
+        "Request Method": "DELETE"
+    }
+}

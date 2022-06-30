@@ -5,9 +5,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from configuration import environment_exection
 
 
-global response
-
-
 # post request
 def post(url, body, token):
     global response

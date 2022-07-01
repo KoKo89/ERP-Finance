@@ -7,15 +7,19 @@ import BeautifulReport
 
 class BillApiTest(unittest.TestCase): #测试方法类
     
-    def __init__(self) -> None:
-        self.token = login_with_ui.get_token()
+    token = login_with_ui.get_token()
     
+    def __init__(self, token) -> None:
+        self.token = token
+
     def setUp(self) -> None:
         print("start==============")
     
+
     def tearDown(self) -> None:
         print("stop==============")
     
+
     def test_listApi(self):
         print("testListApi============")
         response = send_api.sendApi("./all_apis/bill_apis.json", "Bill_list api", self.token)
@@ -40,12 +44,12 @@ class BillApiTest(unittest.TestCase): #测试方法类
 if __name__ == '__main__':
     #使用TestSuit控制用例顺序，用例执行顺序是添加的顺序
     tests = [BillApiTest('test_listApi'), BillApiTest('test_deleteApi')]
-    suite = unittest.TestSuite()
-    suite.addTests(tests)
+    suites = unittest.TestSuite()
+    suites.addTests(tests)
     
-    file_path = './Reports' #定义报告所放置的位置
-    # runner = HtmlTestRunner.HTMLTestRunner(output=file_path)
-    # runner.run(suite)
+    #file_path = r'./Reports' #定义报告所放置的位置
+    runner = unittest.TextTestRunner()
+    runner.run(suites)
     
-    result = BeautifulReport(suite)
-    result.report(description='测试deafult报告', filename='测试报告', report_dir=file_path, theme='theme_default')
+    # result = BeautifulReport(suite)
+    # result.report(description='测试deafult报告', filename='测试报告', report_dir=file_path, theme='theme_default')

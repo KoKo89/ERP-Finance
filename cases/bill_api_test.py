@@ -2,17 +2,19 @@ import unittest
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from common import send_api, login_with_ui
+from common import login_with_ui
+from bill_api import *
 import BeautifulReport
 
 class BillApiTest(unittest.TestCase): #测试方法类
     
-    token = login_with_ui.get_token()
     
-    def __init__(self, token) -> None:
+    token = login_with_ui.get_token()
+    def __init__(self, token):
         self.token = token
 
     def setUp(self) -> None:
+        
         print("start==============")
     
 
@@ -22,13 +24,13 @@ class BillApiTest(unittest.TestCase): #测试方法类
 
     def test_listApi(self):
         print("testListApi============")
-        response = send_api.sendApi("./all_apis/bill_apis.json", "Bill_list api", self.token)
-        self.assertEqual(response["message"], "请求成功!")
+        
+        self.assertEqual(bill_list(self.token), "请求成功!")
     
     def test_deleteApi(self):
         print("testDeleteApi============")
-        response = send_api.sendApi("./all_apis/bill_apis.json", "Bill_delete api", self.token)
-        self.assertEqual(response["message"], "请求成功!")
+        
+        self.assertEqual(bill_delete(self.token), "请求成功!")
         
 
 # if __name__ == 'main':

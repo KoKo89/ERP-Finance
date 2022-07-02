@@ -1,20 +1,14 @@
 import unittest
+import json
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from common import login_with_ui
-from bill_api import *
+from common import login_with_ui, send_api
 import BeautifulReport
 
 class BillApiTest(unittest.TestCase): #测试方法类
     
-    
-    token = login_with_ui.get_token()
-    def __init__(self, token):
-        self.token = token
-
     def setUp(self) -> None:
-        
         print("start==============")
     
 
@@ -24,13 +18,15 @@ class BillApiTest(unittest.TestCase): #测试方法类
 
     def test_listApi(self):
         print("testListApi============")
-        
-        self.assertEqual(bill_list(self.token), "请求成功!")
+        token = login_with_ui.get_token()
+        response = send_api.sendApi("./all_apis/bill_apis.json", "Bill_list api", token)
+        self.assertEqual(response['message'], "请求成功!")
     
     def test_deleteApi(self):
         print("testDeleteApi============")
-        
-        self.assertEqual(bill_delete(self.token), "请求成功!")
+        token = login_with_ui.get_token()
+        response = send_api.sendApi("./all_apis/bill_apis.json", "Bill_delete api", token)
+        self.assertEqual(response(token), "请求成功!")
         
 
 # if __name__ == 'main':
@@ -45,7 +41,7 @@ class BillApiTest(unittest.TestCase): #测试方法类
 
 if __name__ == '__main__':
     #使用TestSuit控制用例顺序，用例执行顺序是添加的顺序
-    tests = [BillApiTest('test_listApi'), BillApiTest('test_deleteApi')]
+    tests = [BillApiTest('test_deleteApi')]
     suites = unittest.TestSuite()
     suites.addTests(tests)
     

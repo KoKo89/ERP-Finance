@@ -1,3 +1,4 @@
+import json
 import requests
 import os
 import sys
@@ -11,52 +12,52 @@ def post(url, body, token):
     headers = {'Accept': 'application/json, text/plain, */*',
                'Authorization': token,
                'Content-Type': 'application/json;charset=UTF-8'}
-    url = environment_exection.server + url
-    data = body
+    url = environment_exection.server_url + url
+    data = json.dumps(body)
+    
     try:
-        response = requests.post(url, data.encode('utf-8'), headers=headers)
-        print(url + ': ' + response.json()['message'])
+        response = requests.post(url, data, headers=headers)
+        return response.json()
     except Exception as e:
         print(e)
-    return response
+   
 
 
 def put(url, body, token):
-    global response
     headers = {'Accept': 'application/json, text/plain, */*',
                'Authorization': token,
                'Content-Type': 'application/json;charset=UTF-8'}
-    url = environment_exection.server + url
-    data = body
+    url = environment_exection.server_url + url
+    data = response.json()
+    
     try:
         response = requests.put(url, data.encode('utf-8'), headers=headers)
-        print(url + ': ' + response.json()['message'])
+        return response.json()
     except Exception as e:
         print(e)
-    return response
+   
 
 
 def get(url, token):
-    global response
     headers = {'Accept': 'application/json, text/plain, */*',
                'Authorization': token}
-    url = environment_exection.server + url
+    url = environment_exection.server_url + url
     try:
         response = requests.get(url, headers=headers)
-        print(url + ': ' + response.json()['message'])
+        return response.json()
     except Exception as e:
         print(e)
-    return response
+
 
 
 def delete(url, token):
-    global response
     headers = {'Accept': 'application/json, text/plain, */*',
                'Authorization': token}
-    url = environment_exection.server + url
+    url = environment_exection.server_url + url
     try:
+        print("start send request")
         response = requests.delete(url, headers=headers)
-        print(url + ': ' + response.json()['message'])
+        print("response===========:" + response.json)
+        return response.json()
     except Exception as e:
         print(e)
-    return response

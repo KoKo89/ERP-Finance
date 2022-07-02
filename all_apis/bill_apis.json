@@ -1,7 +1,7 @@
 {
     "Bill_list api":{
         "url": "/api/finance-service/bill/list",
-        "Request Method": "POST",
+        "method": "POST",
         "body": {
             "noType": 1,
             "customerId": null,
@@ -35,6 +35,6 @@
     } ,
     "Bill_delete api":{
         "url": "/api/finance-service/bill/draft-all",
-        "Request Method": "DELETE"
+        "method": "DELETE"
     }
 }

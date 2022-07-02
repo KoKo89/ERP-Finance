@@ -1,4 +1,7 @@
 import json
+import sys
+import os
+sys.path.append((os.path.dirname(os.path.abspath(__file__))))
 from common import api_method
 
 
@@ -9,6 +12,7 @@ def sendApi(filePath, apiName, token):
     
     if apis[apiName]["method"] == "POST":
         response = api_method.post(apis[apiName]["url"], apis[apiName]["body"], token)
+        print(response)
         
     elif apis[apiName]["method"] == "PUT":
         response = api_method.put(apis[apiName]["url"], apis[apiName]["body"], token)
@@ -17,7 +21,7 @@ def sendApi(filePath, apiName, token):
         response = api_method.get(apis[apiName]["url"],token)
         
     elif apis[apiName]["method"] == "DELETE":
-       response = api_method.get(apis[apiName]["url"],token)
+       response = api_method.delete(apis[apiName]["url"],token)
        
     
     return response

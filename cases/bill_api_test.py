@@ -26,7 +26,7 @@ class BillApiTest(unittest.TestCase): #测试方法类
         print("testDeleteApi============")
         token = login_with_ui.get_token()
         response = send_api.sendApi("./all_apis/bill_apis.json", "Bill_delete api", token)
-        self.assertEqual(response(token), "请求成功!")
+        self.assertEqual(response['message'], "请求成功!")
         
 
 # if __name__ == 'main':
@@ -41,7 +41,7 @@ class BillApiTest(unittest.TestCase): #测试方法类
 
 if __name__ == '__main__':
     #使用TestSuit控制用例顺序，用例执行顺序是添加的顺序
-    tests = [BillApiTest('test_deleteApi')]
+    tests = [BillApiTest('test_listApi'),BillApiTest('test_deleteApi')]
     suites = unittest.TestSuite()
     suites.addTests(tests)
     

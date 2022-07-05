@@ -1,3 +1,4 @@
+import json
 from seleniumwire import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -37,5 +38,5 @@ def get_token():
             token = request.headers['Authorization']
             break
 
-    driver.quit()
-    return token
+    with open('./configuration/token.json', 'w+', encoding='utf-8') as f:
+        f.write(json.dumps(token))

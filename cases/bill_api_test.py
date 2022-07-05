@@ -1,3 +1,4 @@
+from lib2to3.pgen2 import token
 import unittest
 import json
 import sys
@@ -10,6 +11,7 @@ class BillApiTest(unittest.TestCase): #测试方法类
     
     def setUp(self) -> None:
         print("start==============")
+        login_with_ui.get_token()
     
 
     def tearDown(self) -> None:
@@ -18,13 +20,15 @@ class BillApiTest(unittest.TestCase): #测试方法类
 
     def test_listApi(self):
         print("testListApi============")
-        token = login_with_ui.get_token()
+        with open('./configuration/token.json', 'r+') as f:
+            token = f.read()
         response = send_api.sendApi("./all_apis/bill_apis.json", "Bill_list api", token)
         self.assertEqual(response['message'], "请求成功!")
     
     def test_deleteApi(self):
         print("testDeleteApi============")
-        token = login_with_ui.get_token()
+        with open('./configuration/token.json', 'r+') as f:
+            token = f.read()
         response = send_api.sendApi("./all_apis/bill_apis.json", "Bill_delete api", token)
         self.assertEqual(response['message'], "请求成功!")
 

@@ -1,6 +1,4 @@
-from lib2to3.pgen2 import token
 import unittest
-import json
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -22,14 +20,14 @@ class BillApiTest(unittest.TestCase): #测试方法类
         print("testListApi============")
         with open('./configuration/token.json', 'r+') as f:
             token = f.read()
-        response = send_api.sendApi("./all_apis/bill_apis.json", "Bill_list api", token)
+        response = send_api.sendApi("./data/bill_apis.json", "Bill_list api", token)
         self.assertEqual(response['message'], "请求成功!")
     
     def test_deleteApi(self):
         print("testDeleteApi============")
         with open('./configuration/token.json', 'r+') as f:
             token = f.read()
-        response = send_api.sendApi("./all_apis/bill_apis.json", "Bill_delete api", token)
+        response = send_api.sendApi("./data/bill_apis.json", "Bill_delete api", token)
         self.assertEqual(response['message'], "请求成功!")
 
 

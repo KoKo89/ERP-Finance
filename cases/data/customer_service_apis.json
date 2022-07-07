@@ -1,0 +1,7 @@
+{
+    "project_api":{
+        "url": "/api/customer-service/project/name-list",
+        "method": "POST",
+        "body": {"name":"chy"}
+    }
+}

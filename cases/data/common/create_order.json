@@ -1,0 +1,76 @@
+{
+    "get_project": {
+        "url": "/api/customer-service/project/name-list",
+        "method": "POST",
+        "body": {
+            "name": "%s",
+            "innerType": 0
+        }
+    },
+    "get_customer": {
+        "url": "/api/customer-service/customer/name-page-list",
+        "method": "POST",
+        "body": {
+            "pageNum": 1,
+            "pageSize": 100,
+            "customerName": "%s",
+            "projectId": "%s"
+        }
+    },
+    "get_customerDepartment": {
+        "url": "/api/user-service/customer-department/name/list/",
+        "method": "POST"
+    },
+    "get_province": {
+        "url": "/api/location-service/region/provinces-based-id",
+        "method": "GET"
+    },
+    "get_region": {
+        "url": "/api/location-service/region/2/subs",
+        "method": "GET"
+    },
+    "get_country": {
+        "url": "/api/location-service/region/3/subs",
+        "method": "GET"
+    },
+    "get_staff": {
+        "url": "/api/user-service/user/organization/user-list",
+        "method": "POST",
+        "body": {
+            "organizationId": 1,
+            "realName": "%s",
+            "status": 0
+        }
+    },
+    "get_bizStaff": {
+        "url": "/api/user-service/user/organization/user-list",
+        "method": "POST",
+        "body": {
+            "organizationId": "%s",
+            "realName": "%s",
+            "status": 0
+        }
+    },
+    "get_warehouse": {
+        "url": "/api/warehouse-service/warehouse/1/list",
+        "method": "GET"
+    },
+    "get_sku": {
+        "url": "/api/order-service/order/like-order-item-list",
+        "method": "POST",
+        "body": {
+            "customerId": "",
+            "projectId": "",
+            "useCustomerFlag": false,
+            "includeScope": false,
+            "warehouseId": "%s",
+            "skuType": 1,
+            "skuNo": "%s"
+        }
+    },
+    "submit_order": {
+        "url": "/api/order-service/order/accept/erp",
+        "method": "POST",
+        "body": "%s"
+    }
+}

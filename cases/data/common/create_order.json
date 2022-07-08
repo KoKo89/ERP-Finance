@@ -14,23 +14,23 @@
             "pageNum": 1,
             "pageSize": 100,
             "customerName": "%s",
-            "projectId": "%s"
+            "projectId": "%d"
         }
     },
     "get_customerDepartment": {
-        "url": "/api/user-service/customer-department/name/list/",
+        "url": "/api/user-service/customer-department/name/list/%s",
         "method": "POST"
     },
     "get_province": {
         "url": "/api/location-service/region/provinces-based-id",
         "method": "GET"
     },
-    "get_region": {
-        "url": "/api/location-service/region/2/subs",
+    "get_city": {
+        "url": "/api/location-service/region/%s/subs",
         "method": "GET"
     },
     "get_country": {
-        "url": "/api/location-service/region/3/subs",
+        "url": "/api/location-service/region/%s/subs",
         "method": "GET"
     },
     "get_staff": {
@@ -65,7 +65,7 @@
             "includeScope": false,
             "warehouseId": "%s",
             "skuType": 1,
-            "skuNo": "%s"
+            "skuNo": "%d"
         }
     },
     "submit_order": {

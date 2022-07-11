@@ -44,15 +44,14 @@ def create_order(token, data_path, project, customer, staff, biz_staff, warehous
     #打开json文件
     with open(file=data_path, mode="r", encoding="utf-8") as f:
         apis = json.loads(f.read())
-        print('打开文件')
+        print(apis)
         
 
     #发送get_project api 
     url = apis["get_project"]['url']
     body = str(apis["get_project"]['body']) % (project)
-    body = json.dumps(body).encode('utf-8')
+    #body = json.dumps(body).encode('utf-8')
     response = call_api.post(url, body, token)
-    print(response)
     project_id = response["data"][0]["id"]
         
         
@@ -205,6 +204,7 @@ def create_order(token, data_path, project, customer, staff, biz_staff, warehous
 
 login_with_ui.get_token()
 with open('./configuration/token.json', 'r+') as f:
-            token = f.read()
+            token = json.loads(f.read())
+            print(token)
 
 order_no = create_order(token, './cases/data/common/create_order.json', '测试CHY', '测试CHY-央企', '曹红玉', '曹红玉', '曹红玉', ['10075081'])

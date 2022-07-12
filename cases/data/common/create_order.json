@@ -63,9 +63,9 @@
             "projectId": "",
             "useCustomerFlag": false,
             "includeScope": false,
-            "warehouseId": "%s",
+            "warehouseId": "%d",
             "skuType": 1,
-            "skuNo": "%d"
+            "skuNo": "%s"
         }
     },
     "submit_order": {

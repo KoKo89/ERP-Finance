@@ -4,11 +4,10 @@ from re import S
 
 import sys
 import os
-from typing_extensions import Self
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
 from common import call_api,login_with_ui
 
-class order:
+class Order:
     
     def __init__(self, token, user_id, organization_id, data_path) :
         self.token = token
@@ -20,12 +19,7 @@ class order:
     def create_order(self, project, customer, warehouse, sku_nos, customer_department='', staff = '', biz_staff='',
                     recipient_name='chy', recipient_phone='123456', recipient_province='北京市', recipient_city='北京市', recipient_county='朝阳区', 
                     recipient_line='大羊坊路新华国际广场', order_type=0, memo_order_no='', urgent=0, order_memo=''):
-        '''
-        =======================================\n
-        token：权限\n
-        data_path：测试数据json文件的路径\n
-        =======================================
-        
+        '''  
         必填项：
         ========================
         project：项目\n
@@ -132,14 +126,16 @@ class order:
         #发送get_warehouse api
         url = apis["get_warehouse"]['url']
         response = call_api.get(url, self.token)
-        for warehouse in response['data']:
-            if warehouse['name'] == warehouse:
-                warehouse_id = response["data"][0]["id"]
+        for ware_house in response['data']:
+            if ware_house['name'] == warehouse:
+                warehouse_id = ware_house["id"]
+                print(warehouse_id)
                 break
     
         #发送get_sku api
         url = apis["get_sku"]['url']
         for sku_no in sku_nos:  
+            print(sku_no)
             body = json.dumps(apis["get_sku"]['body'], ensure_ascii=False) % (warehouse_id, sku_no)
             response = call_api.post(url, body, self.token)
             
@@ -205,8 +201,8 @@ class order:
                 'memoOrderNo': memo_order_no,  # 备注订单号
                 'serverId': '22222'  
                 }
-        response = call_api.post(url, body, self.token)
-        order_no =  response['data']
+        response = call_api.post(url, json.dumps(body), self.token)
+        order_no = response['data']
         return order_no
     
 
@@ -214,8 +210,12 @@ class order:
 
 login_with_ui.get_user_info()
 with open('./configuration/user_info.json', 'r+') as f:
-            token = json.loads(f.read())['token']
-            user_id = json.loads(f.read())['user_id']
-            print(token)
+            user_info = json.loads(f.read())
+            print(user_info)
+            token = user_info['token']
+            user_id = user_info['user_id']
+            organization_id = user_info['organization_id']
 
-order_no = create_order(token, './cases/data/common/create_order.json', '测试CHY', '测试CHY-央企', '曹红玉', '曹红玉', '曹红玉', ['10075081'])
+order = Order(token, user_id, organization_id, './cases/data/common/create_order.json')
+order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', sku_nos=['10075081'])
+print(order_no)

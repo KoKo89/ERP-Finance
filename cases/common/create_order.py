@@ -110,9 +110,7 @@ class Order:
             response = call_api.post(url, body, self.token)
             staff_id = response["data"][0]["id"]
         else:
-            print("self.user_id:   " + str(self.user_id))
             staff_id = self.user_id
-            print("staff_id:     " + str(staff_id))
             
         
         

@@ -12,10 +12,8 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from configuration import environment_exection
 
-def get_token():
-    driver_path = r'./drivers/chromedriver.exe'  # 这是chrome驱动路径
-    # option = webdriver.ChromeOptions()
-    # option.add_experimental_option("detach", True)
+def get_user_info():
+    driver_path = r'./drivers/chromedriver.exe'
     driver = webdriver.Chrome(executable_path=driver_path)
     wait = WebDriverWait(driver, 5)
 
@@ -39,8 +37,11 @@ def get_token():
     for request in driver.requests:
         if request.url == environment_exection.server_url + '/api/user-service/user/getUserInfo':
             token = request.headers['Authorization']
-            print(token)
+            user_id = json.loads(request.response.body)['data']['userPosts'][0]['id']
+            organization_id = json.loads(request.response.body)['data']['userPosts'][0]['organizationId']
             break
-
-    with open('./configuration/token.json', 'w+', encoding='utf-8') as f:
-        f.write(json.dumps(token))
+    
+    #将user info 写入/configuration/user_info.json
+    user_info = {"token":token, "user_id":user_id, "organization_id":organization_id}
+    with open('./configuration/user_info.json', 'w+', encoding='utf-8') as f:
+        f.write(json.dumps(user_info))

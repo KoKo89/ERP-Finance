@@ -12,11 +12,10 @@ def post(url, body, token):
                'Authorization': token,
                'Content-Type': 'application/json;charset=UTF-8'}
     url = environment_exection.server_url + url
-    data = json.dumps(body)
-    data2 = data.encode('utf-8')
+    data = body
     
     try:
-        response = requests.post(url, data2, headers=headers)
+        response = requests.post(url, data.encode('utf-8'), headers=headers)
         print(response.json())
         return response.json()
     except Exception as e:

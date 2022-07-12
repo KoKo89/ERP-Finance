@@ -10,7 +10,7 @@ class BillApiTest(unittest.TestCase): #测试方法类
     
     def setUp(self) -> None:
         print("start==============")
-        login_with_ui.get_token()
+        login_with_ui.get_user_info()
     
 
     def tearDown(self) -> None:

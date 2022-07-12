@@ -37,7 +37,7 @@ def get_user_info():
     for request in driver.requests:
         if request.url == environment_exection.server_url + '/api/user-service/user/getUserInfo':
             token = request.headers['Authorization']
-            user_id = json.loads(request.response.body)['data']['userPosts'][0]['id']
+            user_id = json.loads(request.response.body)['data']['userPosts'][0]['userId']
             organization_id = json.loads(request.response.body)['data']['userPosts'][0]['organizationId']
             break
     

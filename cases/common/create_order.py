@@ -104,17 +104,22 @@ class Order:
             
         
         #发送get_staff api
-        if staff == '':
+        if staff != '':
             url = apis["get_staff"]['url']
             body = json.dumps(apis["get_staff"]['body'], ensure_ascii=False) % (staff)
             response = call_api.post(url, body, self.token)
             staff_id = response["data"][0]["id"]
+            print("====================================================if=")
         else:
+            print("====================================================else")
+            print("self.user_id:   " + str(self.user_id))
             staff_id = self.user_id
+            print("staff_id:     " + str(staff_id))
+            
         
         
         #发送get_bizStaff api
-        if biz_staff == '':
+        if biz_staff != '':
             url = apis["get_bizStaff"]['url']
             body = json.dumps(apis["get_bizStaff"]['body'], ensure_ascii=False) % (self.organization_id,biz_staff)
             response = call_api.post(url, body, self.token)
@@ -198,7 +203,7 @@ class Order:
                 'urgent': urgent,  # 是否紧急（0：否，1：是）
                 'orderVisibleAtFront': 0,
                 'memoOrderNo': memo_order_no,  # 备注订单号
-                'serverId': '22222'  
+                'serverId': self.organization_id  
                 }
         response = call_api.post(url, json.dumps(body), self.token)
         order_no = response['data']

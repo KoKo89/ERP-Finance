@@ -109,9 +109,7 @@ class Order:
             body = json.dumps(apis["get_staff"]['body'], ensure_ascii=False) % (staff)
             response = call_api.post(url, body, self.token)
             staff_id = response["data"][0]["id"]
-            print("====================================================if=")
         else:
-            print("====================================================else")
             print("self.user_id:   " + str(self.user_id))
             staff_id = self.user_id
             print("staff_id:     " + str(staff_id))

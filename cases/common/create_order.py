@@ -4,7 +4,7 @@ from re import S
 
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from common import call_api,login_with_ui
 
 class Order:
@@ -129,11 +129,11 @@ class Order:
         for ware_house in response['data']:
             if ware_house['name'] == warehouse:
                 warehouse_id = ware_house["id"]
-                print(warehouse_id)
                 break
     
         #发送get_sku api
         url = apis["get_sku"]['url']
+        itemList = []
         for sku_no in sku_nos:  
             print(sku_no)
             body = json.dumps(apis["get_sku"]['body'], ensure_ascii=False) % (warehouse_id, sku_no)
@@ -144,7 +144,6 @@ class Order:
             currentPrice = response["data"][0]['websitePrice'] * float(currentDiscount) * 0.01;
             amount = itemQty * float(currentPrice);
             
-            itemList = []
             sku = {
                 "serverId": "",
                 "skuName": response["data"][0]['skuName'],
@@ -216,6 +215,6 @@ with open('./configuration/user_info.json', 'r+') as f:
             user_id = user_info['user_id']
             organization_id = user_info['organization_id']
 
-order = Order(token, user_id, organization_id, './cases/data/common/create_order.json')
-order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', sku_nos=['10075081'])
+order = Order(token, user_id, organization_id, './cases/common/create_order.json')
+order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', sku_nos=['10066773'])
 print(order_no)

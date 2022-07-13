@@ -1,11 +1,9 @@
 from datetime import date
 import json
-from re import S
-
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-from common import call_api,login_with_ui
+from common import call_api
 
 class Order:
     
@@ -151,7 +149,7 @@ class Order:
                 "currentDiscount": "100.00",
                 "currentPrice": str(currentPrice),
                 "itemMemo": "商品备注_" + sku_no,
-                "itemQty": 1,
+                "itemQty": itemQty,
                 "previousPrice": response["data"][0]['previousPrice'],
                 "skuId": response["data"][0]['skuId'],
                 "skuNo": response["data"][0]['skuNo'],
@@ -203,19 +201,5 @@ class Order:
                 }
         response = call_api.post(url, json.dumps(body), self.token)
         order_no = response['data']
+        
         return order_no
-    
-
-
-
-login_with_ui.get_user_info()
-with open('./configuration/user_info.json', 'r+') as f:
-            user_info = json.loads(f.read())
-            print(user_info)
-            token = user_info['token']
-            user_id = user_info['user_id']
-            organization_id = user_info['organization_id']
-
-order = Order(token, user_id, organization_id, './cases/common/create_order.json')
-order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', sku_nos=['10066773'])
-print(order_no)

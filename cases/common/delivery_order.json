@@ -1,0 +1,66 @@
+{
+    "get_orderId": {
+        "url": "/api/order-service/order/accept/list",
+        "method": "POST",
+        "body": {
+            "hiddenInfo": true,
+            "assignUserId": "",
+            "customerGroupUserDataAuthorityId": "",
+            "customerId": "",
+            "customerOrderNo": "",
+            "oldErpOrderId": "",
+            "customerUserDataAuthorityId": "",
+            "customerUserId": "",
+            "customerUserPhone": "",
+            "customerUserGroupId": "",
+            "dateType": 0,
+            "orderNo": "%s",
+            "orderSource": "",
+            "orderType": "",
+            "partyBId": "",
+            "projectId": "",
+            "recipientAddressCityId": "",
+            "recipientAddressCountyId": "",
+            "recipientAddressProvinceId": "",
+            "serverChangedStatus": "",
+            "serverId": "",
+            "serverRejectStatus": "",
+            "serverUserId": "",
+            "staffId": "",
+            "bizStaffId": "",
+            "startTime": "",
+            "endTime": "",
+            "orderStatus": "",
+            "urgent": "",
+            "userOwnType": "",
+            "relatedOrderDelivery": "",
+            "hasOrderDelivery": "",
+            "hasReturnOrder": "",
+            "payType": "",
+            "inclusions": [],
+            "firstLevelModule": "订单",
+            "secondLevelModule": "接单中心",
+            "thirdLevelModule": "订单管理",
+            "pageNum": 1,
+            "pageSize": 10,
+            "timeRange": null
+        }
+    },
+    "get_warehouse": {
+        "url": "/api/warehouse-service/warehouse/1/list",
+        "method": "GET"
+    },
+    "get_deliveryInfo": {
+        "url": "/api/order-service/order/delivery/%s",
+        "method": "GET"
+    },
+    "get_invoice": {
+        "url": "/api/customer-service/customerinvoice/%s/invoice-list",
+        "method": "GET"
+    },
+    "generate_delivery": {
+        "url": "/api/order-service/order/delivery/generate",
+        "method": "POST",
+        "body": "%s"
+    }
+}

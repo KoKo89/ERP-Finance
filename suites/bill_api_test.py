@@ -56,9 +56,9 @@ with open('./configuration/user_info.json', 'r+') as f:
             user_id = user_info['user_id']
             organization_id = user_info['organization_id']
 
-# order = create_order.Order(token, user_id, organization_id, './cases/common/create_order.json')
-# order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', sku_nos=['10066773'])
-# print(order_no)
+order = create_order.Order(token, user_id, organization_id, './cases/common/create_order.json')
+order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', skus=[{"no":"10066773", "num":2}, {"no":"10101858", "num":1}])
+print(order_no)
 
 # delivery = delivery_order.Delivery(token, user_id, organization_id, './cases/common/delivery_order.json')
 # delivery_id = delivery.generate_delivery(order_no='XSDD20220713000001', warehouse='曹红玉', delivery_sku=[{"no":"10066773", "num":1}], auto_invoice=1, 

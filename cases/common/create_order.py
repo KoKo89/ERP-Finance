@@ -14,7 +14,7 @@ class Order:
         self.data_path = data_path
         
     
-    def create_order(self, project, customer, warehouse, sku_nos, customer_department='', staff = '', biz_staff='',
+    def create_order(self, project, customer, warehouse, skus, customer_department='', staff = '', biz_staff='',
                     recipient_name='chy', recipient_phone='123456', recipient_province='北京市', recipient_city='北京市', recipient_county='朝阳区', 
                     recipient_line='大羊坊路新华国际广场', order_type=0, memo_order_no='', urgent=0, order_memo=''):
         '''  
@@ -23,7 +23,7 @@ class Order:
         project：项目\n
         customer：客户\n
         warehouse：仓库名称\n
-        sku_nos：商品编号,list类型\n
+        skus：商品编号,list类型,举例：[{"no":"12121", "num":1}]\n
         =======================================
         
         非必填项：
@@ -133,12 +133,12 @@ class Order:
         #发送get_sku api
         url = apis["get_sku"]['url']
         itemList = []
-        for sku_no in sku_nos:  
-            print(sku_no)
-            body = json.dumps(apis["get_sku"]['body'], ensure_ascii=False) % (warehouse_id, sku_no)
+        for sku in skus:  
+            print(json.dumps(sku, ensure_ascii=False))
+            body = json.dumps(apis["get_sku"]['body'], ensure_ascii=False) % (warehouse_id, sku['no'])
             response = call_api.post(url, body, self.token)
             
-            itemQty = 5;
+            itemQty = sku['num'];
             currentDiscount = 100;
             currentPrice = response["data"][0]['websitePrice'] * float(currentDiscount) * 0.01;
             amount = itemQty * float(currentPrice);
@@ -148,7 +148,7 @@ class Order:
                 "skuName": response["data"][0]['skuName'],
                 "currentDiscount": "100.00",
                 "currentPrice": str(currentPrice),
-                "itemMemo": "商品备注_" + sku_no,
+                "itemMemo": "商品备注_" + sku['no'],
                 "itemQty": itemQty,
                 "previousPrice": response["data"][0]['previousPrice'],
                 "skuId": response["data"][0]['skuId'],

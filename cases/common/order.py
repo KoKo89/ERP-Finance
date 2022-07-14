@@ -3,7 +3,7 @@ import json
 import sys
 import os
 
-from urllib3 import encode_multipart_formdata
+from requests_toolbelt import MultipartEncoder
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from common import call_api
 
@@ -582,13 +582,15 @@ class Order:
                 "receiveQty":item["itemQty"]
             }
             receiveQtyDTOS.append(item)
-        print("receiveQtyDTOS==================" + json.dumps(receiveQtyDTOS))
             
         # 发送：upload_image api，上传图片
-        file = open(file="./cases/common/upload.png", mode="rb")
+        file = {'file': ("upload.png", open("./cases/common/upload.png", 'rb'))}
+        
         url = apis[3]["upload_image"]['url']
-        body = encode_multipart_formdata(apis[3]["upload_image"]['body'])
-        response = call_api.post_Image(url, body, file, self.token)
+        body = apis[3]["upload_image"]['body']
+        encode_data = MultipartEncoder(body, file)
+        
+        response = call_api.post_Image(url, encode_data, {"form_field_name": file}, self.token)
         upload_id = response["data"]["id"]
         print("upload_id===================：" + upload_id)
         

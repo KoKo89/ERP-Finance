@@ -59,12 +59,14 @@ with open('./configuration/user_info.json', 'r+', encoding='utf-8') as f:
             mobile = user_info['mobile']
 
 order = order.Order(token, user_id, organization_id, real_name, mobile, './cases/common/order.json')
-order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', skus=[{"no":"10066773", "num":5}])
-print(order_no)
+# order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', skus=[{"no":"10066773", "num":5}, {"no":"10055721", "num":5}])
+# print(order_no)
 
-delivery_no, delivery_id = order.generate_delivery(order_no=order_no, warehouse='曹红玉', delivery_sku=[{"no":"10066773", "num":5}], auto_invoice=1, 
-                                      invoice_type=1, need_post=1,need_receipt=1,tax_sign=1)
-print(delivery_no)
-print(delivery_id)
+# delivery_no, delivery_id = order.generate_delivery(order_no='XSDD20220714000010', warehouse='曹红玉', delivery_sku=[{"no":"10066773", "num":1}, {"no":"10055721", "num":1}], auto_invoice=1, 
+#                                       invoice_type=1, need_post=1,need_receipt=1,tax_sign=1)
+# print(delivery_no)
+# print(delivery_id)
 
-order.out_warehouse(delivery_no)
+# order.out_warehouse(delivery_no)
+
+order.return_order("77DDFCEEB8FE55BD")

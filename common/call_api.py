@@ -21,6 +21,20 @@ def post(url, body, token):
     except Exception as e:
         print(e)
    
+   
+def post_Image(url, body, file, token):
+    headers = {'Accept': 'application/json, text/plain, */*',
+               'Authorization': token,
+               'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary27jIiHAu8OLAXPAG'}
+    url = environment_exection.server_url + url
+    data = body
+    
+    try:
+        response = requests.post(url, data, headers=headers, files=file)
+        print(response.json())
+        return response.json()
+    except Exception as e:
+        print(e)
 
 
 def put(url, body, token):

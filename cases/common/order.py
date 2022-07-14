@@ -1,7 +1,9 @@
-from datetime import date
+from datetime import date, datetime
 import json
 import sys
 import os
+
+from urllib3 import encode_multipart_formdata
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from common import call_api
 
@@ -564,3 +566,40 @@ class Order:
         body = json.dumps(apis[2]["out_warehouse"]['body'], ensure_ascii=False) % (self.user_id, self.real_name, self.mobile, sourceOrderId, sourceOrderNo)
         call_api.post(url, body, self.token)
     
+    def return_order(self, delivery_id):
+        
+        #打开json文件
+        with open(file=self.data_path, mode="r", encoding="utf-8") as f:
+            apis = json.loads(f.read())
+        
+        #发送: get_deliveryItemId api
+        url = apis[3]["get_deliveryItemId"]['url'] % (delivery_id)
+        response = call_api.get(url, self.token)
+        receiveQtyDTOS = []
+        for item in response['data']['orderDeliveryItemDTOS']:
+            item = {
+                "itemId": item["id"],
+                "receiveQty":item["itemQty"]
+            }
+            receiveQtyDTOS.append(item)
+        print("receiveQtyDTOS==================" + json.dumps(receiveQtyDTOS))
+            
+        # 发送：upload_image api，上传图片
+        file = open(file="./cases/common/upload.png", mode="rb")
+        url = apis[3]["upload_image"]['url']
+        body = encode_multipart_formdata(apis[3]["upload_image"]['body'])
+        response = call_api.post_Image(url, body, file, self.token)
+        upload_id = response["data"]["id"]
+        print("upload_id===================：" + upload_id)
+        
+        
+        #发送：confirmed_delivery，确认送达
+        url = apis[3]["upload_image"]['url']
+        # now = date(date.today().year, date.today().month, date.today().day, )
+        now = datetime.today()
+        body = {
+            "cargoReceiptPictureFileIds": [upload_id],
+            "deliveryTime": now,
+            "id": delivery_id,
+            "receiveQtyDTOS": receiveQtyDTOS
+        }

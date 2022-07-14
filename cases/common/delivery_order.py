@@ -8,10 +8,12 @@ from common import call_api
 
 class Delivery:
     
-    def __init__(self, token, user_id, organization_id, data_path) :
+    def __init__(self, token, user_id, organization_id, real_name, mobile, data_path) :
         self.token = token
         self.user_id = user_id
         self.organization_id = organization_id
+        self.real_name = real_name
+        self.mobile = mobile
         self.data_path = data_path
         
         
@@ -186,8 +188,6 @@ class Delivery:
         else:
             invoiceInfo={}
         
-        print("invoiceInfo=================================\n" + json.dumps(invoiceInfo, ensure_ascii=False))
-        
         
         #拼接generate_delivery接口body
         sdSupplierId = ""#特配供应商id
@@ -302,12 +302,72 @@ class Delivery:
         }
         # print()
         
-        #发送generate_delivery api
+        #发送generate_delivery api，生成发货单
         url = apis["generate_delivery"]['url']
         body = json.dumps(body, ensure_ascii=False)
         response = call_api.post(url, body, self.token)
         delivery_id = response["data"]
         
-        return delivery_id
+        #发送get_deliveryNo api, 获取发货单号
+        url = apis["get_deliveryNo"]['url']
+        body = json.dumps(apis["get_deliveryNo"]['body'], ensure_ascii=False) % (order_no)
+        response = call_api.post(url, body, self.token)
+        delivery_no=''
+        for delivery in response['data']['items']:
+            if delivery['orderDeliveryId'] == delivery_id:
+                delivery_no = delivery['orderDeliveryNo']
+                break
         
         
+        return delivery_no, delivery_id
+        
+    def out_warehouse(self, delivery_no):
+        '''
+        必填项：
+        ==============================
+        delivery_no：来源单号(发货单号)
+        '''
+        
+        #打开json文件
+        with open(file=self.data_path, mode="r", encoding="utf-8") as f:
+            apis = json.loads(f.read())
+        
+        #推送到仓库，发送：push_wms api
+        url = apis["push_wms"]['url']
+        call_api.post(url, '', self.token)
+        
+        #发送：get_lockId api，获取锁库单信息
+        url = apis["get_lockId"]['url']
+        body = json.dumps(apis["get_lockId"]['body'], ensure_ascii=False) % (delivery_no)
+        response = call_api.post(url, body, self.token)
+        lock_id = response['data']['items'][0]['id']
+        sourceOrderId = response['data']['items'][0]['sourceOrderId']
+        sourceOrderNo = response['data']['items'][0]['sourceOrderNo']
+        sourceOrderType = response['data']['items'][0]['sourceOrderType']
+        
+        #发送：manual_lock api，手动锁库
+        url = apis["manual_lock"]['url']
+        body = json.dumps(apis["manual_lock"]['body'], ensure_ascii=False) % (lock_id, sourceOrderId, sourceOrderNo, sourceOrderType)
+        call_api.post(url, body, self.token)
+        
+        #发送：get_allocationId api，获取分配任务单信息
+        url = apis["get_allocationId"]['url']
+        body = json.dumps(apis["get_allocationId"]['body'], ensure_ascii=False) % (delivery_no)
+        response = call_api.post(url, body, self.token)
+        allocation_id = response['data']['items'][0]['id']
+        
+        #发送：allocate_picker_info api，获取分配人员信息
+        url = apis["allocate_picker_info"]['url']
+        body = json.dumps(apis["allocate_picker_info"]['body'], ensure_ascii=False) % (allocation_id)
+        response = call_api.post(url, body, self.token)
+        pickerId = response['data']['pickerStatisticInfoDTOList'][0]['pickerId']
+        
+        #发送：allocate_picker api，分配任务
+        url = apis["allocate_picker"]['url']
+        body = json.dumps(apis["allocate_picker"]['body'], ensure_ascii=False) % (allocation_id, pickerId)
+        call_api.post(url, body, self.token)
+        
+        #发送：out_warehouse api，出库
+        url = apis["out_warehouse"]['url']
+        body = json.dumps(apis["out_warehouse"]['body'], ensure_ascii=False) % (self.user_id, self.real_name, self.mobile, sourceOrderId, sourceOrderNo)
+        call_api.post(url, body, self.token)    

@@ -49,18 +49,22 @@ from cases.common import create_order, delivery_order
 
 
 login_with_ui.get_user_info()
-with open('./configuration/user_info.json', 'r+') as f:
+with open('./configuration/user_info.json', 'r+', encoding='utf-8') as f:
             user_info = json.loads(f.read())
             print(user_info)
             token = user_info['token']
             user_id = user_info['user_id']
             organization_id = user_info['organization_id']
+            real_name = user_info['real_name']
+            mobile = user_info['mobile']
 
-order = create_order.Order(token, user_id, organization_id, './cases/common/create_order.json')
-order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', skus=[{"no":"10066773", "num":2}, {"no":"10101858", "num":1}])
-print(order_no)
+# order = create_order.Order(token, user_id, organization_id, './cases/common/create_order.json')
+# order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', skus=[{"no":"10066773", "num":5}])
+# print(order_no)
 
-# delivery = delivery_order.Delivery(token, user_id, organization_id, './cases/common/delivery_order.json')
-# delivery_id = delivery.generate_delivery(order_no='XSDD20220713000001', warehouse='曹红玉', delivery_sku=[{"no":"10066773", "num":1}], auto_invoice=1, 
-#                                       invoice_type=1, need_post=1,need_receipt=1,tax_sign=1)
-# print(delivery_id)
+delivery = delivery_order.Delivery(token, user_id, organization_id, real_name, mobile, './cases/common/delivery_order.json')
+delivery_no, delivery_id = delivery.generate_delivery(order_no='XSDD20220714000006', warehouse='曹红玉', delivery_sku=[{"no":"10066773", "num":1}], auto_invoice=1, 
+                                      invoice_type=1, need_post=1,need_receipt=1,tax_sign=1)
+print(delivery_no)
+
+delivery.out_warehouse(delivery_no)

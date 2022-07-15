@@ -593,9 +593,9 @@ class Order:
         response = call_api.post_Image(url, body, self.token)
         upload_id = response["data"]["id"]
         
-        
+          
         #发送：confirmed_delivery，确认送达
-        url = apis[3]["upload_image"]['url']
+        url = apis[3]["confirmed_delivery"]['url']
         now = datetime.today()
         now = datetime(now.year, now.month, now.day, now.hour, now.minute, now.second)
         body = {
@@ -605,4 +605,4 @@ class Order:
             "receiveQtyDTOS": receiveQtyDTOS
         }
         body=json.dumps(body, ensure_ascii=False)
-        response = call_api.post(url, body, self.token)
+        response = call_api.put(url, body, self.token)

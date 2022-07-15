@@ -42,7 +42,7 @@ def put(url, body, token):
                'Authorization': token,
                'Content-Type': 'application/json;charset=UTF-8'}
     url = environment_exection.server_url + url
-    data = json.dumps(body)
+    data = body
     
     try:
         response = requests.put(url, data.encode('utf-8'), headers=headers)

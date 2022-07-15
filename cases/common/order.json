@@ -285,8 +285,8 @@
             "body": "%s"
         },
         "confirmed_delivery": {
-            "url": "/api/file-service/file/upload",
-            "method": "POST",
+            "url": "/api/order-service/order/delivery/confirmed/delivery",
+            "method": "PUT",
             "body": "%s"
         }
     }

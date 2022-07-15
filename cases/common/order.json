@@ -282,10 +282,7 @@
         "upload_image": {
             "url": "/api/file-service/file/upload",
             "method": "POST",
-            "body": {
-                "type": "Order_Document",
-                "fileName": "upload.png"
-            }
+            "body": "%s"
         },
         "confirmed_delivery": {
             "url": "/api/file-service/file/upload",

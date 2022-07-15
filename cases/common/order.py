@@ -584,24 +584,25 @@ class Order:
             receiveQtyDTOS.append(item)
             
         # 发送：upload_image api，上传图片
-        file = {'file': ("upload.png", open("./cases/common/upload.png", 'rb'))}
-        
+        image = ("upload.png", open("./cases/common/upload.png", 'rb'))
         url = apis[3]["upload_image"]['url']
-        body = apis[3]["upload_image"]['body']
-        encode_data = MultipartEncoder(body, file)
-        
-        response = call_api.post_Image(url, encode_data, {"form_field_name": file}, self.token)
+        body = MultipartEncoder({
+                "type": "Order_Document",
+                "fileName": image
+            })
+        response = call_api.post_Image(url, body, self.token)
         upload_id = response["data"]["id"]
-        print("upload_id===================：" + upload_id)
         
         
         #发送：confirmed_delivery，确认送达
         url = apis[3]["upload_image"]['url']
-        # now = date(date.today().year, date.today().month, date.today().day, )
         now = datetime.today()
+        now = datetime(now.year, now.month, now.day, now.hour, now.minute, now.second)
         body = {
             "cargoReceiptPictureFileIds": [upload_id],
-            "deliveryTime": now,
+            "deliveryTime": str(now),
             "id": delivery_id,
             "receiveQtyDTOS": receiveQtyDTOS
         }
+        body=json.dumps(body, ensure_ascii=False)
+        response = call_api.post(url, body, self.token)

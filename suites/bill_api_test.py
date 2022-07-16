@@ -69,4 +69,6 @@ order = order.Order(token, user_id, organization_id, real_name, mobile, './cases
 
 # order.out_warehouse(delivery_no)
 
-order.return_order("77DDFCEEB8FE55BD")
+# order.confirmed_delivery("77DDFCEEB8FE55BD")
+
+order.return_order("77DDFCEEB8FE55BD", return_sku=[{"no":"10066773", "num":1}])

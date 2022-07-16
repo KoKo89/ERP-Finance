@@ -2,6 +2,8 @@ from datetime import date, datetime
 import json
 import sys
 import os
+from urllib import response
+from requests import request
 
 from requests_toolbelt import MultipartEncoder
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -566,7 +568,14 @@ class Order:
         body = json.dumps(apis[2]["out_warehouse"]['body'], ensure_ascii=False) % (self.user_id, self.real_name, self.mobile, sourceOrderId, sourceOrderNo)
         call_api.post(url, body, self.token)
     
-    def return_order(self, delivery_id):
+    def confirmed_delivery(self, delivery_id):
+        '''
+        发货单确认送达
+        ===============
+        
+        必填项：\n
+        delivery_id：发货单加密id
+        '''
         
         #打开json文件
         with open(file=self.data_path, mode="r", encoding="utf-8") as f:
@@ -606,3 +615,109 @@ class Order:
         }
         body=json.dumps(body, ensure_ascii=False)
         response = call_api.put(url, body, self.token)
+        
+    def return_order(self, delivery_no, delivery_id, return_sku):
+        '''
+        退货完成
+        ======================
+        
+        必填项：\n
+        delivery_no：发货单号\n
+        delivery_id：发货单加密id\n
+        return_sku：退货商品, list, 举例: [{"no": "101111", num":1}]\n
+        '''    
+        
+         #打开json文件
+        with open(file=self.data_path, mode="r", encoding="utf-8") as f:
+            apis = json.loads(f.read())
+        
+        #发送：returnOrder_contactInfo api，获取退货联系信息
+        url = apis[4]["returnOrder_contactInfo"]['url'] % (delivery_id)
+        response = call_api.get(url, self.token)
+        returnAddressCityId = response['data']['returnAddressCityId']
+        returnAddressCountyId = response['data']['returnAddressCountyId']
+        returnAddressLine = response['data']['returnAddressLine']
+        returnAddressProvinceId = response['data']['returnAddressProvinceId']
+        returnContacts = response['data']['returnContacts']
+        returnPhone = response['data']['returnPhone']
+        returnReasons = response['data']['returnReasons']
+        warehouseId = response['data']['warehouseId']
+        warehouseName = response['data']['warehouseName']
+        
+        #发送returnOrder_SkuItemList api，获取退货商品信息
+        url = apis[4]["returnOrder_SkuItemList"]['url'] 
+        body = json.dumps(apis[4]["returnOrder_SkuItemList"]['body']) % (delivery_id)
+        response = call_api.post(url, body, self.token)
+        
+        returnOrderWarehouseItemParamList=[]
+        for sku in return_sku:
+            for data in response['data']:
+                if sku['no'] == str(data['skuNo']):
+                    item={
+                        "actualReturnQty": sku['num'],
+                        "canReturnNum": data['canReturnNum'],
+                        "currentPrice":data['currentPrice'],
+                        "id":data['id'],
+                        "orderDeliveryId":data['orderDeliveryId'],
+                        "orderDeliveryItemId":data['id'],
+                        "returnQty":sku['num'],
+                        "sdAmount":data['sdAmount'],
+                        "skuId":data['skuId'],
+                        "skuModel":data['skuModel'],
+                        "skuName":data['skuName'],
+                        "skuNo":data['skuNo'],
+                        "taxRate":data['taxRate'],
+                        "unit":data['unit']
+                    }
+                    returnOrderWarehouseItemParamList.append(item)
+                
+        print("returnOrderWarehouseItemParamList=========\n" + str(returnOrderWarehouseItemParamList))
+                    
+        #发送generate_returnOrder api，生成退货单
+        url = apis[4]["generate_returnOrder"]['url'] % (delivery_id)
+        body = {
+            "orderType": 0,
+            "otherReasonDescription": "",
+            "receiver":"",
+            "receiverAddressCityId":"",
+            "receiverAddressCountyId":"",
+            "receiverAddressLine": "",
+            "receiverAddressProvinceId":"",
+            "receiverPhone":"",
+            "returnAddressCityId": returnAddressCityId,
+            "returnAddressCountyId": returnAddressCountyId,
+            "returnAddressLine": returnAddressLine,
+            "returnAddressProvinceId": returnAddressProvinceId,
+            "returnContacts": returnContacts,
+            "returnOrderWarehouseItemParamList": returnOrderWarehouseItemParamList,
+            "returnPhone": returnPhone,
+            "returnReason": "ORDER_INFO_ERROR",#[ ORDER_INFO_ERROR, CUSTOMER_CHANGE_SKU, OUT_OF_CUSTOMER_MONEY, CUSTOMER_NEED_CHANGE, OTHER ]
+            "returnReasons": returnReasons,
+            "returnWay": "RETURN_WAREHOUSE", #[ RETURN_FACTORY, RETURN_WAREHOUSE ]
+            "status": 2,
+            "warehouseId": warehouseId,
+            "warehouseName": warehouseName
+        }
+        response = call_api.post(url, json.dumps(body, ensure_ascii=False), self.token)
+        
+        #发送get_returnOrderInfo api，获取退货单信息
+        url = apis[4]["get_returnOrderInfo"]['url'] 
+        body = json.dumps(apis[4]["get_returnOrderInfo"]['body']) % (delivery_no)
+        response = call_api.post(url, body, self.token)
+        returnorders = []
+        for item in response['data']['items']:
+            temp = {
+                "no": item['returnOrderNo'],
+                "id": item['id']
+            }
+            returnorders.append(temp)
+            
+        #发送confirm_returnOrder api,确认退货单
+        for returnorder in returnorders:
+            url = apis[4]["confirm_returnOrder"]['url'] % (returnorder['id'])
+            body = json.dumps(apis[4]["confirm_returnOrder"]['body'])
+            call_api.put(url, body, self.token)
+            
+    
+        
+        

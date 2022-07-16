@@ -289,5 +289,58 @@
             "method": "PUT",
             "body": "%s"
         }
+    },
+    {
+        "returnOrder_contactInfo": {
+            "url": "/api/order-service/returnorder/%s/returnOrder-init-contactInfo",
+            "method": "GET"
+        },
+        "returnOrder_SkuItemList": {
+            "url": "/api/order-service/returnorder/returnOrder-init-SkuItemList",
+            "method": "POST",
+            "body": {
+                "orderDeliveryId": "%s",
+                "skuName": ""
+            }
+        },
+        "generate_returnOrder": {
+            "url": "/api/order-service/returnorder/%s",
+            "method": "POST",
+            "body": "%s"
+        },
+        "get_returnOrderInfo": {
+            "url": "/api/order-service/returnorder/list",
+            "method": "POST",
+            "body": {
+                "customerId": null,
+                "returnOrderNo": null,
+                "id": null,
+                "orderId": null,
+                "orderNo": null,
+                "serviceId": "",
+                "source": null,
+                "endDate": null,
+                "startDate": null,
+                "orderDeliveryNo": "%s",
+                "dateType": 0,
+                "pageNum": 1,
+                "pageSize": 10,
+                "projectId": "",
+                "customerName": "",
+                "orderStatus": "1",
+                "returnWay": "",
+                "type": "",
+                "timeRange": null,
+                "changeAmountStatus": "",
+                "firstLevelModule": "订单",
+                "secondLevelModule": "售后中心",
+                "thirdLevelModule": "退货单管理"
+            }
+        },
+        "confirm_returnOrder": {
+            "url": "/api/order-service/returnorder/%s/confirm",
+            "method": "PUT",
+            "body": []
+        }
     }
 ]

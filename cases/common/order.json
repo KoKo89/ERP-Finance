@@ -341,6 +341,28 @@
             "url": "/api/order-service/returnorder/%s/confirm",
             "method": "PUT",
             "body": []
+        },
+        "warehouse_returnOrderInfo": {
+            "url": "/api/warehouse-service/out/warehouse/order-returnorder/list",
+            "method": "POST",
+            "body": {
+                "returnOrderNo": "%s",
+                "createStartTime": null,
+                "createEndTime": null,
+                "pageNum": 1,
+                "pageSize": 10,
+                "skuId": null,
+                "organizationId": null,
+                "staffId": "",
+                "skuNo": null,
+                "orderDeliveryNo": null,
+                "warehouseId": null
+            }
+        },
+        "returnOrder_inWarehouse": {
+            "url": "/api/warehouse-service/out/warehouse/order-returnorder/batch-in",
+            "method": "POST",
+            "body": "%s"
         }
     }
 ]

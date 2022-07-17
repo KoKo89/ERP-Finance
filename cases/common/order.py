@@ -698,26 +698,33 @@ class Order:
             "warehouseId": warehouseId,
             "warehouseName": warehouseName
         }
+        print("body=========================:" + json.dumps(body, ensure_ascii=False))
         response = call_api.post(url, json.dumps(body, ensure_ascii=False), self.token)
         
         #发送get_returnOrderInfo api，获取退货单信息
         url = apis[4]["get_returnOrderInfo"]['url'] 
         body = json.dumps(apis[4]["get_returnOrderInfo"]['body']) % (delivery_no)
         response = call_api.post(url, body, self.token)
-        returnorders = []
-        for item in response['data']['items']:
-            temp = {
-                "no": item['returnOrderNo'],
-                "id": item['id']
-            }
-            returnorders.append(temp)
+        returnorder_no = response['data']['items'][0]['returnOrderNo']
+        returnorder_id = response['data']['items'][0]['id']
             
         #发送confirm_returnOrder api,确认退货单
-        for returnorder in returnorders:
-            url = apis[4]["confirm_returnOrder"]['url'] % (returnorder['id'])
-            body = json.dumps(apis[4]["confirm_returnOrder"]['body'])
-            call_api.put(url, body, self.token)
+        url = apis[4]["confirm_returnOrder"]['url'] % (returnorder_id)
+        body = json.dumps(apis[4]["confirm_returnOrder"]['body'])
+        call_api.put(url, body, self.token)
             
-    
+
+        #发送warehouse_returnOrderInfo api，销售退货获取退货信息
+        url = apis[4]["warehouse_returnOrderInfo"]['url'] 
+        body = json.dumps(apis[4]["warehouse_returnOrderInfo"]['body']) % (returnorder_no)
+        response = call_api.post(url, body, self.token)
+        returnOrderItems = response['data']['items'][0]['returnOrderItems']
+        for item in returnOrderItems:
+            item['warehouseId'] = warehouseId
+            item['warehouseName'] = warehouseName
+            
         
-        
+        #发送returnOrder_inWarehouse api, 销售退货入库
+        url = apis[4]["returnOrder_inWarehouse"]['url'] 
+        body = json.dumps(returnOrderItems)
+        call_api.post(url, body, self.token)

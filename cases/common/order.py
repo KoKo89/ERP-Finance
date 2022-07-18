@@ -655,7 +655,7 @@ class Order:
             for data in response['data']:
                 if sku['no'] == str(data['skuNo']):
                     item={
-                        "actualReturnQty": sku['num'],
+                        "actualReturnQty": data['canReturnNum'],
                         "canReturnNum": data['canReturnNum'],
                         "currentPrice":data['currentPrice'],
                         "id":data['id'],
@@ -671,8 +671,6 @@ class Order:
                         "unit":data['unit']
                     }
                     returnOrderWarehouseItemParamList.append(item)
-                
-        print("returnOrderWarehouseItemParamList=========\n" + str(returnOrderWarehouseItemParamList))
                     
         #发送generate_returnOrder api，生成退货单
         url = apis[4]["generate_returnOrder"]['url'] % (delivery_id)
@@ -699,7 +697,6 @@ class Order:
             "warehouseId": warehouseId,
             "warehouseName": warehouseName
         }
-        print("body=========================:" + json.dumps(body, ensure_ascii=False))
         response = call_api.post(url, json.dumps(body, ensure_ascii=False), self.token)
         
         #发送get_returnOrderInfo api，获取退货单信息
@@ -721,11 +718,14 @@ class Order:
         response = call_api.post(url, body, self.token)
         returnOrderItems = response['data']['items'][0]['returnOrderItems']
         for item in returnOrderItems:
+            item['inQty'] = item['returnQty']
             item['warehouseId'] = warehouseId
             item['warehouseName'] = warehouseName
+            if item['locationId'] == None:
+                item['locationId'] = 0
             
         
         #发送returnOrder_inWarehouse api, 销售退货入库
         url = apis[4]["returnOrder_inWarehouse"]['url'] 
-        body = json.dumps(returnOrderItems)
+        body = json.dumps(returnOrderItems, ensure_ascii=False)
         call_api.post(url, body, self.token)

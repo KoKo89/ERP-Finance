@@ -2,8 +2,7 @@ from datetime import date, datetime
 import json
 import sys
 import os
-from urllib import response
-from requests import request
+import time
 
 from requests_toolbelt import MultipartEncoder
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -567,6 +566,8 @@ class Order:
         url = apis[2]["out_warehouse"]['url']
         body = json.dumps(apis[2]["out_warehouse"]['body'], ensure_ascii=False) % (self.user_id, self.real_name, self.mobile, sourceOrderId, sourceOrderNo)
         call_api.post(url, body, self.token)
+        
+        time.sleep(10)
     
     def confirmed_delivery(self, delivery_id):
         '''

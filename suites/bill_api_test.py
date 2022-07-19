@@ -58,7 +58,7 @@ with open('./configuration/user_info.json', 'r+', encoding='utf-8') as f:
             real_name = user_info['real_name']
             mobile = user_info['mobile']
 
-order = order.Order(token, user_id, organization_id, real_name, mobile, './cases/common/order.json')
+order = order.Order(token, user_id, organization_id, real_name, mobile)
 order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', skus=[{"no":"10066773", "num":5}, {"no":"10055721", "num":5}])
 print(order_no)
 

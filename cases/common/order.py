@@ -10,13 +10,12 @@ from common import call_api
 
 class Order:
     
-    def __init__(self, token, user_id, organization_id, real_name, mobile, data_path) :
+    def __init__(self, token, user_id, organization_id, real_name, mobile) :
         self.token = token
         self.user_id = user_id
         self.organization_id = organization_id
         self.real_name = real_name
         self.mobile = mobile
-        self.data_path = data_path
         
     
     def create_order(self, project, customer, warehouse, skus, customer_department='', staff = '', biz_staff='',
@@ -50,7 +49,7 @@ class Order:
         '''
         
         #打开json文件
-        with open(file=self.data_path, mode="r", encoding="utf-8") as f:
+        with open(file='./cases/common/order.json', mode="r", encoding="utf-8") as f:
             apis = json.loads(f.read())
             
 
@@ -233,7 +232,7 @@ class Order:
         '''
         
         #打开json文件
-        with open(file=self.data_path, mode="r", encoding="utf-8") as f:
+        with open(file='./cases/common/order.json', mode="r", encoding="utf-8") as f:
             apis = json.loads(f.read())
             
         
@@ -524,7 +523,7 @@ class Order:
         '''
         
         #打开json文件
-        with open(file=self.data_path, mode="r", encoding="utf-8") as f:
+        with open(file='./cases/common/order.json', mode="r", encoding="utf-8") as f:
             apis = json.loads(f.read())
         
         #推送到仓库，发送：push_wms api
@@ -579,7 +578,7 @@ class Order:
         '''
         
         #打开json文件
-        with open(file=self.data_path, mode="r", encoding="utf-8") as f:
+        with open(file='./cases/common/order.json', mode="r", encoding="utf-8") as f:
             apis = json.loads(f.read())
         
         #发送: get_deliveryItemId api
@@ -629,7 +628,7 @@ class Order:
         '''    
         
          #打开json文件
-        with open(file=self.data_path, mode="r", encoding="utf-8") as f:
+        with open(file='./cases/common/order.json', mode="r", encoding="utf-8") as f:
             apis = json.loads(f.read())
         
         #发送：returnOrder_contactInfo api，获取退货联系信息

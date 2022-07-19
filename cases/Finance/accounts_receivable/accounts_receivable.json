@@ -1,0 +1,28 @@
+[
+    {
+        "syc_order":{
+            "url": "/api/finance-service/accounts-receivable/find/order-time/accountReceiveable",
+            "method": "POST",
+            "body": {
+                "endTime": "{{today}}T23:59:59",
+                "startTime": "{{today}}T00:00:00"
+            }
+        },
+        "syc_delivery":{
+            "url": "/api/finance-service/accounts-receivable/find/delivery-time/accountReceiveable",
+            "method": "POST",
+            "body": {
+                "endTime": "{{today}}T23:59:59",
+                "startTime": "{{today}}T00:00:00"
+            }
+        },
+        "syc_return":{
+            "url": "/api/finance-service/accounts-receivable/find/return-time/accountReceiveable",
+            "method": "POST",
+            "body": {
+                "endTime": "{{today}}T23:59:59",
+                "startTime": "{{today}}T00:00:00"
+            }
+        }
+    }
+]

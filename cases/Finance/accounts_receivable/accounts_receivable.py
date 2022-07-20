@@ -92,4 +92,7 @@ class Accounts_receivable(unittest.TestCase):
         self.assertEqual(response['data']['items'][0]['orderAmountNotInvoiced'], 100)#未开票金额
         self.assertEqual(response['data']['items'][0]['orderAmountNotSettled'], 100)#未对账金额
         self.assertEqual(response['data']['items'][0]['orderAmountReceived'], 0)#收款金额
-        self.assertEqual(response['data']['items'][0]['orderAmountReceived'], 0)#收款金额
+        self.assertEqual(response['data']['items'][0]['orderAmountReceivedBalance'], 100)#应收余额
+        self.assertEqual(response['data']['items'][0]['orderAmountSettled'], 100)#已对账金额
+        self.assertEqual(response['data']['items'][0]['orderCreateTime'], today)#订单创建时间
+        self.assertEqual(response['data']['items'][0]['orderQty'], 5)#订单创建时间

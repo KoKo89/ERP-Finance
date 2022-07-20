@@ -1,6 +1,6 @@
 [
     {
-        "syc_order":{
+        "syc_order": {
             "url": "/api/finance-service/accounts-receivable/find/order-time/accountReceiveable",
             "method": "POST",
             "body": {
@@ -8,7 +8,7 @@
                 "startTime": "{{today}}T00:00:00"
             }
         },
-        "syc_delivery":{
+        "syc_delivery": {
             "url": "/api/finance-service/accounts-receivable/find/delivery-time/accountReceiveable",
             "method": "POST",
             "body": {
@@ -16,12 +16,56 @@
                 "startTime": "{{today}}T00:00:00"
             }
         },
-        "syc_return":{
+        "syc_return": {
             "url": "/api/finance-service/accounts-receivable/find/return-time/accountReceiveable",
             "method": "POST",
             "body": {
                 "endTime": "{{today}}T23:59:59",
                 "startTime": "{{today}}T00:00:00"
+            }
+        },
+        "receivable_orderInfo": {
+            "url": "/api/finance-service/accounts-receivable/summary-list",
+            "method": "POST",
+            "body": {
+                "bizTypeList": [],
+                "customerId": null,
+                "customerTypeList": [],
+                "documentNo": "%s",
+                "endDate": "",
+                "pageNum": 1,
+                "pageSize": 10,
+                "pageType": 1,
+                "partyBId": null,
+                "projectId": null,
+                "serverId": null,
+                "staffId": null,
+                "startDate": "",
+                "timeType": 2,
+                "type": null,
+                "firstLevelModule": "财务",
+                "secondLevelModule": "客户结算",
+                "thirdLevelModule": "应收账款汇总表",
+                "partyBName": null,
+                "projectName": null,
+                "serverName": null,
+                "staffName": null,
+                "customerName": null,
+                "customerDepartmentId": null,
+                "oldErpOrderId": null,
+                "customerOrderNo": null,
+                "memoOrderNo": null,
+                "recipientAddressLine": null,
+                "recipientPhone": null,
+                "recipientName": null,
+                "recipientAddressProvinceId": null,
+                "recipientAddressCityId": null,
+                "recipientAddressCountyId": null,
+                "closeStatus": 0,
+                "billStatusList": [],
+                "invoiceStatusList": [],
+                "writeOffStatusList": [],
+                "dimensionList": []
             }
         }
     }

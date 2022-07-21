@@ -7159,29 +7159,33 @@ body.skin-3 {
 
 
     var resultData = {
-    "testPass": 1,
+    "testPass": 0,
     "testResult": [
         {
-            "className": "BillApiTest",
-            "methodName": "test_listApi",
+            "className": "Accounts_receivable",
+            "methodName": "test_syc_order",
             "description": null,
-            "spendTime": "7.29 s",
-            "status": "成功",
+            "spendTime": "6.05 s",
+            "status": "失败",
             "log": [
-                "start==============",
-                "testListApi============",
-                "打开文件",
-                "{'success': True, 'code': '000000', 'message': '请求成功!', 'data': {'path': '/bill/list', 'error': 'Unauthorized', 'timestamp': '2022-07-11T09:40:09.657+08:00', 'status': 401}}",
-                "stop==============",
-                ""
+                "{'token': 'Bearer 968bc4eb-61ae-4cb5-b0f6-43ff7bdbefe2', 'user_id': 17387, 'organization_id': 1, 'real_name': '曹红玉', 'mobile': '15711495854'}\n{'success': True, 'code': '000000', 'message': '请求成功!', 'data': {'prePageNum': 0, 'total': 1, 'prePageFirstId': 0, 'orgOffset': 0, 'pageSize': 10, 'items': [{'orderType': 0, 'createUserId': 17387, 'logStatus': 0, 'invoiceTime': None, 'oldErpOrderId': None, 'memo': '', 'billStatusText': '未对账', 'createUserName': '曹红玉', 'getRecipientAddressCityName': '北京市', 'closeStatusText': '未关闭', 'orderAmountSettled': 0.0, 'serverId': 1, 'number': None, 'customerType': 0, 'recipientAddressCountyId': 6, 'receiptTime': None, 'orderAmountReceivedBalance': 25830.0, 'orderAmountReceived': 0.0, 'orderQty': 10, 'orderQtySettled': 0, 'recipientName': 'chy', 'id': 112686, 'paymentStatusText': '未付款', 'invoiceStatusText': '未开票', 'orderQtyNotSettled': 10, 'area': '北京市-北京市-朝阳区', 'finishTime': '2022-07-21', 'recipientPhone': '123456', 'orderCreateTime': '2022-07-21', 'recipientAddressCityId': 3, 'partyBName': '领先未来科技集团有限公司', 'customerName': '测试CHY-央企', 'dimensionText': '', 'partyBId': 1, 'relationDocumentNo': None, 'orderAccountReceiveable': 25830.0, 'projectName': '测试CHY', 'projectId': 909, 'writeOffTime': None, 'closeStatus': 0, 'bizType': 1, 'orderAmountNotSettled': 25830.0, 'bizTypeName': '销售订单', 'serverName': '领先未来科技集团有限公司', 'writeOffStatusText': '未收款', 'orderAmountInvoiced': 0.0, 'getRecipientAddressCountyName': '朝阳区', 'documentNo': 'XSDD20220721000001', 'orderQtyInvoiced': 0.0, 'amountPaid': 0.0, 'staffName': '曹红玉', 'customerId': 5092, 'customerDepartmentId': 0, 'paymentTime': None, 'relationDocumentId': None, 'paymentStatus': 0, 'recipientAddressLine': '大羊坊路新华国际广场', 'orderQtyNotInvoiced': 10.0, 'getRecipientAddressProvinceName': '北京市', 'memoOrderNo': '', 'customerTypeName': None, 'billTime': None, 'customerReceiptAddress': '北京市-北京市-朝阳区-大羊坊路新华国际广场', 'customerDepartmentName': '', 'orderAmountNotInvoiced': 25830.0, 'documentId': '32542117C718C8D4', 'customerOrderNo': '', 'staffId': 17387, 'customerNo': 105216, 'recipientAddressProvinceId': 2}], 'pageNum': 1}}\n25830.0 != 100 : 应收金额\n25830.0 != 100 : 未开票金额\n25830.0 != 100 : 未对账金额\n25830.0 != 100 : 应收余额\n0.0 != 100 : 已对账金额\n10 != 5 : 订单数量\n",
+                "Traceback (most recent call last):\n",
+                "  File \"D:\\Python3.10.5\\lib\\unittest\\case.py\", line 59, in testPartExecutor\n    yield\n",
+                "  File \"D:\\Python3.10.5\\lib\\unittest\\case.py\", line 591, in run\n    self._callTestMethod(testMethod)\n",
+                "  File \"D:\\Python3.10.5\\lib\\unittest\\case.py\", line 549, in _callTestMethod\n    method()\n",
+                "  File \"e:\\VScode\\ERP-Finance\\cases\\finance\\accounts_receivable\\accounts_receivable.py\", line 107, in test_syc_order\n    self.checkTestResult()\n",
+                "  File \"e:\\VScode\\ERP-Finance\\common\\checkPoint.py\", line 95, in checkTestResult\n    return self.assertEqual(self.flag, 0, \"{}\".format(self.msg))\n",
+                "  File \"D:\\Python3.10.5\\lib\\unittest\\case.py\", line 845, in assertEqual\n    assertion_func(first, second, msg=msg)\n",
+                "  File \"D:\\Python3.10.5\\lib\\unittest\\case.py\", line 838, in _baseAssertEqual\n    raise self.failureException(msg)\n",
+                "AssertionError: 6 != 0 : ['\\n{}25830.0 != 100 : 应收金额', '\\n{}25830.0 != 100 : 未开票金额', '\\n{}25830.0 != 100 : 未对账金额', '\\n{}25830.0 != 100 : 应收余额', '\\n{}0.0 != 100 : 已对账金额', '\\n{}10 != 5 : 订单数量']\n"
             ]
         }
     ],
     "testName": "测试deafult报告",
     "testAll": 1,
-    "testFail": 0,
-    "beginTime": "2022-07-11 09:40:01",
-    "totalTime": "8s",
+    "testFail": 1,
+    "beginTime": "2022-07-21 17:00:11",
+    "totalTime": "6s",
     "testSkip": 0,
     "testError": 0
 };

@@ -2,10 +2,12 @@ import unittest
 import json
 import sys
 import os
+from datetime import datetime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from common import login_with_ui, call_api
 from BeautifulReport import BeautifulReport
 from cases.common import order
+from cases.finance.accounts_receivable import accounts_receivable
 
 # class BillApiTest(unittest.TestCase): #测试方法类
     
@@ -48,27 +50,40 @@ from cases.common import order
 
 
 
-login_with_ui.get_user_info()
-with open('./configuration/user_info.json', 'r+', encoding='utf-8') as f:
-            user_info = json.loads(f.read())
-            print(user_info)
-            token = user_info['token']
-            user_id = user_info['user_id']
-            organization_id = user_info['organization_id']
-            real_name = user_info['real_name']
-            mobile = user_info['mobile']
+# login_with_ui.get_user_info()
+# with open('./configuration/user_info.json', 'r+', encoding='utf-8') as f:
+#             user_info = json.loads(f.read())
+#             print(user_info)
+#             token = user_info['token']
+#             user_id = user_info['user_id']
+#             organization_id = user_info['organization_id']
+#             real_name = user_info['real_name']
+#             mobile = user_info['mobile']
 
-order = order.Order(token, user_id, organization_id, real_name, mobile)
-order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', skus=[{"no":"10066773", "num":5}, {"no":"10055721", "num":5}])
-print(order_no)
+# order = order.Order(token, user_id, organization_id, real_name, mobile)
+# order_no = order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', skus=[{"no":"10066773", "num":5}, {"no":"10055721", "num":5}])
+# print(order_no)
 
-delivery_no, delivery_id = order.generate_delivery(order_no=order_no, warehouse='曹红玉', delivery_sku=[{"no":"10066773", "num":2}, {"no":"10055721", "num":2}], auto_invoice=1, 
-                                      invoice_type=1, need_post=1,need_receipt=1,tax_sign=1)
-print(delivery_no)
-print(delivery_id)
+# delivery_no, delivery_id = order.generate_delivery(order_no=order_no, warehouse='曹红玉', delivery_sku=[{"no":"10066773", "num":2}, {"no":"10055721", "num":2}], auto_invoice=1, 
+#                                       invoice_type=1, need_post=1,need_receipt=1,tax_sign=1)
+# print(delivery_no)
+# print(delivery_id)
 
-order.out_warehouse(delivery_no)
+# order.out_warehouse(delivery_no)
 
-order.confirmed_delivery(delivery_id)
+# order.confirmed_delivery(delivery_id)
 
-order.return_order(delivery_no, delivery_id, return_sku=[{"no":"10066773", "num":1}, {"no":"10055721", "num":1}],)
+# order.return_order(delivery_no, delivery_id, return_sku=[{"no":"10066773", "num":1}, {"no":"10055721", "num":1}],)
+
+if __name__ == '__main__':
+    #使用TestSuit控制用例顺序，用例执行顺序是添加的顺序
+    tests = [accounts_receivable.Accounts_receivable('test_syc_order')]
+    suites = unittest.TestSuite()
+    suites.addTests(tests)
+    
+    # runner = unittest.TextTestRunner()
+    # runner.run(suites)
+    
+    file_path = r'./reports' #定义报告所放置的位置
+    result = BeautifulReport(suites)
+    result.report(description='测试deafult报告', filename='测试报告', report_dir=file_path, theme='theme_default')

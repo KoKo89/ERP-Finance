@@ -10,7 +10,7 @@ environments = ['./configuration/environment_test.json',
 
 
 #设置执行环境
-exection = "environment_test"
+exection = "environment_test2"
 
 #查找执行环境参数
 for each in environments:

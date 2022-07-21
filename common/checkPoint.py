@@ -5,10 +5,10 @@
 import unittest
 class CheckPoint(unittest.TestCase):
     def __init__(self,  methodName='runTest'):
-        super(CheckPoint, self).__init__(methodName)
-        self._testMethodName = methodName
+        super(CheckPoint, self).__init__(methodName) #继承父类的初始化方法，方法名字随便定义
         self.flag = 0
         self.msg = []
+        
  
     # 基本的布尔断言：要么正确，要么错误的验证
     def checkAssertEqual(self, arg1, arg2, msg=None):
@@ -17,8 +17,7 @@ class CheckPoint(unittest.TestCase):
             self.assertEqual(arg1, arg2, msg)
         except Exception as e:
             self.flag += 1
-            # self.msg.append("\n{}".format(msg))
-            self.msg.append("\n{}" + str(e))
+            self.msg.append("\n{}".format(msg))
             print(e)
             
     def checkAssertNotEqual(self, arg1, arg2, msg=None):

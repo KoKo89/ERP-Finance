@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from common import login_with_ui, call_api
 from BeautifulReport import BeautifulReport
 from cases.common import order
-from cases.finance.accounts_receivable import accounts_receivable
+from cases.Finance.accounts_receivable import accounts_receivable
 
 # class BillApiTest(unittest.TestCase): #测试方法类
     

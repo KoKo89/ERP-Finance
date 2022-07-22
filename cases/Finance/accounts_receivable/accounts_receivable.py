@@ -6,13 +6,15 @@ import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-from common import login_with_ui, call_api, checkPoint
+from common import login_with_ui, call_api, checkPoint, connect_mysql
 from cases.common import order
 
 class Accounts_receivable(checkPoint.CheckPoint):
     
     def setUp(self):
+        #获取token
         login_with_ui.get_user_info()
+        
     
     def test_syc_order(self):
         
@@ -36,6 +38,11 @@ class Accounts_receivable(checkPoint.CheckPoint):
         # print(order_no)
         
         order_no = 'XSDD20220721000001'
+        mycursor = connect_mysql.leadingDB.cursor()
+        sql = "SELECT * FROM `Order` WHERE `no` = %s"
+        mycursor.execute(sql, (order_no,))
+        myresult = mycursor.fetchall()
+        print(myresult)
         
         '''
         发送syc_order api，同步订单, 并验证同步成功

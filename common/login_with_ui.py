@@ -39,11 +39,12 @@ def get_user_info():
             token = request.headers['Authorization']
             user_id = json.loads(request.response.body)['data']['userPosts'][0]['userId']
             organization_id = json.loads(request.response.body)['data']['userPosts'][0]['organizationId']
+            organization_name = json.loads(request.response.body)['data']['userPosts'][0]['organizationName']
             real_name = json.loads(request.response.body)['data']['realName']
             mobile = json.loads(request.response.body)['data']['mobile']
             break
     
     #将user info 写入/configuration/user_info.json
-    user_info = {"token":token, "user_id":user_id, "organization_id":organization_id, "real_name": real_name, "mobile": mobile}
+    user_info = {"token":token, "user_id":user_id, "organization_id":organization_id, "organization_name": organization_name, "real_name": real_name, "mobile": mobile}
     with open('./configuration/user_info.json', 'w+', encoding='utf-8') as f:
         f.write(json.dumps(user_info, ensure_ascii=False))

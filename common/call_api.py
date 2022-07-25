@@ -16,7 +16,9 @@ def post(url, body, token):
     
     try:
         response = requests.post(url, data.encode('utf-8'), headers=headers)
+        print(url + ":")
         print(response.json())
+        print("=========================================================================================\n")
         return response.json()
     except Exception as e:
         print(e)
@@ -31,7 +33,9 @@ def post_Image(url, body, token):
     
     try:
         response = requests.post(url, data, headers=headers)
+        print(url + ":")
         print(response.json())
+        print("=========================================================================================\n")
         return response.json()
     except Exception as e:
         print(e)
@@ -46,7 +50,9 @@ def put(url, body, token):
     
     try:
         response = requests.put(url, data.encode('utf-8'), headers=headers)
+        print(url + ":")
         print(response.json())
+        print("=========================================================================================\n")
         return response.json()
     except Exception as e:
         print(e)
@@ -59,7 +65,9 @@ def get(url, token):
     url = environment_exection.server_url + url
     try:
         response = requests.get(url, headers=headers)
+        print(url + ":")
         print(response.json())
+        print("=========================================================================================\n")
         return response.json()
     except Exception as e:
         print(e)
@@ -73,7 +81,9 @@ def delete(url, token):
     
     try:
         response = requests.delete(url, headers=headers)
+        print(url + ":")
         print(response.json())
+        print("=========================================================================================\n")
         return response.json()
     except Exception as e:
         print(e)

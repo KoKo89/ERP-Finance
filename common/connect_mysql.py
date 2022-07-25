@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from configuration import environment_exection
 
 leadingDB  = mysql.connector.connect(
-            host='123.56.50.180',
+            host=environment_exection.database_host,
             port=environment_exection.database_port,
             user=environment_exection.database_username,
             passwd=environment_exection.database_password,
@@ -13,7 +13,7 @@ leadingDB  = mysql.connector.connect(
         )
 
 financeDB  = mysql.connector.connect(
-            host='123.56.50.180',
+            host=environment_exection.database_host,
             port=environment_exection.database_port,
             user=environment_exection.database_username,
             passwd=environment_exection.database_password,
@@ -22,7 +22,7 @@ financeDB  = mysql.connector.connect(
 
 
 userDb = mysql.connector.connect(
-            host='123.56.50.180',
+            host=environment_exection.database_host,
             port=environment_exection.database_port,
             user=environment_exection.database_username,
             passwd=environment_exection.database_password,

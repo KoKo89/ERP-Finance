@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from common import login_with_ui, call_api
 from BeautifulReport import BeautifulReport
 from cases.common import order
-from cases.finance.accounts_receivable import accounts_receivable
+from cases.finance.accounts_receivable.accounts_receivable import Accounts_receivable
 
 # class BillApiTest(unittest.TestCase): #测试方法类
     
@@ -77,7 +77,9 @@ from cases.finance.accounts_receivable import accounts_receivable
 
 if __name__ == '__main__':
     #使用TestSuit控制用例顺序，用例执行顺序是添加的顺序
-    tests = [accounts_receivable.Accounts_receivable('test_syc_order')]
+    # tests = [Accounts_receivable('test_order'), Accounts_receivable('test_delivery'), Accounts_receivable('test_return')]
+    # tests = [Accounts_receivable('test_order')]
+    tests = [Accounts_receivable('test_order'), Accounts_receivable('test_delivery')]
     suites = unittest.TestSuite()
     suites.addTests(tests)
     

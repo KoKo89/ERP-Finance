@@ -67,6 +67,50 @@
                 "writeOffStatusList": [],
                 "dimensionList": []
             }
+        },
+        "receivable_deliveryInfo": {
+            "url": "/api/finance-service/accounts-receivable/summary-list",
+            "method": "POST",
+            "body": {
+                "bizTypeList": [],
+                "customerId": null,
+                "customerTypeList": [],
+                "documentNo": "%s",
+                "endDate": "",
+                "pageNum": 1,
+                "pageSize": 10,
+                "pageType": 2,
+                "partyBId": null,
+                "projectId": null,
+                "serverId": null,
+                "staffId": null,
+                "startDate": "",
+                "timeType": 2,
+                "type": null,
+                "firstLevelModule": "财务",
+                "secondLevelModule": "客户结算",
+                "thirdLevelModule": "应收账款汇总表",
+                "partyBName": null,
+                "projectName": null,
+                "serverName": null,
+                "staffName": null,
+                "customerName": null,
+                "customerDepartmentId": null,
+                "oldErpOrderId": null,
+                "customerOrderNo": null,
+                "memoOrderNo": null,
+                "recipientAddressLine": null,
+                "recipientPhone": null,
+                "recipientName": null,
+                "recipientAddressProvinceId": null,
+                "recipientAddressCityId": null,
+                "recipientAddressCountyId": null,
+                "closeStatus": 0,
+                "billStatusList": [],
+                "invoiceStatusList": [],
+                "writeOffStatusList": [],
+                "dimensionList": []
+            }
         }
     }
 ]

@@ -1,19 +1,28 @@
 import json
 from datetime import date
 import time
-import unittest
 import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
-from common import login_with_ui, call_api, checkPoint, connect_mysql
+from common import db_connect, login_with_ui, call_api, checkPoint
 from cases.common import order
+from configuration import environment_exection
 
 class Accounts_receivable(checkPoint.CheckPoint):
+   
     
     def setUp(self):
         #获取token
         login_with_ui.get_user_info()
+        
+        #连接数据库
+        global leadingDB
+        global financeDB
+        global userDb
+        leadingDB = db_connect.db_connect(environment_exection.leadingDB).cursor()
+        financeDB = db_connect.db_connect(environment_exection.financeDB).cursor()
+        userDb = db_connect.db_connect(environment_exection.userDb).cursor()
         
     def test_order(self):
         
@@ -37,9 +46,9 @@ class Accounts_receivable(checkPoint.CheckPoint):
         order_no = new_order.create_order(project='测试CHY', customer='测试CHY-央企', warehouse= '曹红玉', skus=[{"no":"10066773", "num":5}, {"no":"10055721", "num":5}])
         print('订单号：' +order_no + '\n' + '====================================')
         
-        mycursor = connect_mysql.leadingDB.cursor()
-        mycursor.execute("SELECT * FROM `Order` WHERE `no` = %s", (order_no,))
-        myresult = mycursor.fetchall()
+        
+        leadingDB.execute("SELECT * FROM `Order` WHERE `no` = %s", (order_no,))
+        myresult = leadingDB.fetchall()
         print(myresult)
         order_id = myresult[0][0]
         project_id = myresult[0][5]
@@ -58,9 +67,8 @@ class Accounts_receivable(checkPoint.CheckPoint):
         
         
         
-        mycursor = connect_mysql.userDb.cursor()
-        mycursor.execute("SELECT * FROM Customer WHERE `name` = '测试CHY-央企'")
-        myresult = mycursor.fetchall()
+        userDb.execute("SELECT * FROM Customer WHERE `name` = '测试CHY-央企'")
+        myresult = userDb.fetchall()
         customer_no = myresult[0][22]
         
         
@@ -188,9 +196,8 @@ class Accounts_receivable(checkPoint.CheckPoint):
         #发货单出库
         new_order.out_warehouse(delivery_no)
         
-        mycursor = connect_mysql.leadingDB.cursor()
-        mycursor.execute("SELECT * FROM `OrderDelivery` WHERE orderDeliveryNo = %s", (delivery_no,))
-        myresult = mycursor.fetchall()
+        leadingDB.execute("SELECT * FROM `OrderDelivery` WHERE orderDeliveryNo = %s", (delivery_no,))
+        myresult = leadingDB.fetchall()
         print(myresult)
         amount = myresult[0][5]
         recipient_provinceId = myresult[0][12]
@@ -204,9 +211,8 @@ class Accounts_receivable(checkPoint.CheckPoint):
         staff_name = myresult[0][56]
         
         
-        mycursor = connect_mysql.userDb.cursor()
-        mycursor.execute("SELECT * FROM Customer WHERE `name` = '测试CHY-央企'")
-        myresult = mycursor.fetchall()
+        userDb.execute("SELECT * FROM Customer WHERE `name` = '测试CHY-央企'")
+        myresult = userDb.fetchall()
         customer_no = myresult[0][22]
         
         '''
@@ -338,9 +344,8 @@ class Accounts_receivable(checkPoint.CheckPoint):
         time.sleep(2)
         
         #连接数据库
-        mycursor = connect_mysql.leadingDB.cursor()
-        mycursor.execute("SELECT * FROM `Order` WHERE `no` = %s", (order_no,))
-        myresult = mycursor.fetchall()
+        leadingDB.execute("SELECT * FROM `Order` WHERE `no` = %s", (order_no,))
+        myresult = leadingDB.fetchall()
         print(myresult)
         #order_id = myresult[0][0]
         project_id = myresult[0][5]
@@ -353,16 +358,14 @@ class Accounts_receivable(checkPoint.CheckPoint):
         staff_id = myresult[0][19]
         staff_name = myresult[0][51]
         
-        mycursor = connect_mysql.leadingDB.cursor()
-        mycursor.execute("SELECT * FROM ReturnOrder WHERE returnOrderNo =  %s", (returnorder_no,))
-        myresult = mycursor.fetchall()
+        leadingDB.execute("SELECT * FROM ReturnOrder WHERE returnOrderNo =  %s", (returnorder_no,))
+        myresult = leadingDB.fetchall()
         print(myresult)
         return_amount = -myresult[0][7]
         
         
-        mycursor = connect_mysql.userDb.cursor()
-        mycursor.execute("SELECT * FROM Customer WHERE `name` = '测试CHY-央企'")
-        myresult = mycursor.fetchall()
+        userDb.execute("SELECT * FROM Customer WHERE `name` = '测试CHY-央企'")
+        myresult = userDb.fetchall()
         customer_no = myresult[0][22]
         
         '''

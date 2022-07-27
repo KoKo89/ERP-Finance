@@ -20,11 +20,29 @@ for each in environments:
             server_url = json_data['server']['url']
             server_username = json_data['server']['username']
             server_password = json_data['server']['password']
-            database_host = json_data['database']['host']
-            database_port = json_data['database']['port']
-            database_username = json_data['database']['username']
-            database_password = json_data['database']['password']
-            database_finance = json_data['database']['database_finance']
-            database_leading = json_data['database']['database_leading']
-            database_user = json_data['database']['database_user']
+            
+            leadingDB  = {
+                    'host': json_data['database']['host'],
+                    'port': int(json_data['database']['port']),
+                    'user': json_data['database']['username'],
+                    'passwd': json_data['database']['password'],
+                    'database': json_data['database']['database_leading']
+                }
+           
+            financeDB  = {
+                    'host': json_data['database']['host'],
+                    'port': int(json_data['database']['port']),
+                    'user': json_data['database']['username'],
+                    'passwd': json_data['database']['password'],
+                    'database': json_data['database']['database_finance']
+                }
+
+
+            userDb = {
+                    'host': json_data['database']['host'],
+                    'port': int(json_data['database']['port']),
+                    'user': json_data['database']['username'],
+                    'passwd': json_data['database']['password'],
+                    'database': json_data['database']['database_user']
+                }
         break

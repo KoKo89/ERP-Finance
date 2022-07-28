@@ -118,7 +118,9 @@ class Test_receivable():
         response = call_api.post(url, body, token)
             
         #验证订单信息
-        assert response['data']['total'] == 1, "只有一个订单"
+        assert response['data']['total'] == 1, "订单数量！=1"
+        assert len(response['data']['items']) == 1, "订单数量！=1"
+        assert response['data']['items'][0]['amountPaid'] == 0, "付款金额！=0"
 
 
         

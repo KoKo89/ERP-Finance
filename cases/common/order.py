@@ -521,7 +521,7 @@ class Order:
                 delivery_no = delivery['orderDeliveryNo']
                 break
         
-        
+        time.sleep(5)
         return delivery_no, delivery_id
     
     def out_warehouse(self, delivery_no):

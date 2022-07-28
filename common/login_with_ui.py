@@ -1,6 +1,4 @@
 import json
-from lib2to3.pgen2 import token
-from requests import options
 from seleniumwire import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait

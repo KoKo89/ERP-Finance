@@ -6,11 +6,12 @@ environments = ['./configuration/environment_test.json',
                 './configuration/environment_test1-3.json',
                 './configuration/environment_test2.json',
                 './configuration/environment_test2-2.json',
-                './configuration/environment_test2-3.json']
+                './configuration/environment_test2-3.json',
+                './configuration/environment_test3.json']
 
 
 #设置执行环境
-exection = "environment_test2"
+exection = "environment_test3"
 
 #查找执行环境参数
 for each in environments:

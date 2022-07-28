@@ -1,5 +1,6 @@
 from datetime import date, datetime
 import json
+from operator import truediv
 import sys
 import os
 import time
@@ -206,6 +207,8 @@ class Order:
         response = call_api.post(url, json.dumps(body), self.token)
         order_no = response['data']
         
+        time.sleep(5)
+        
         return order_no
     
     def generate_delivery(self, order_no, warehouse, delivery_sku, inStore_type=0, auto_invoice=0, invoice_type=0, need_post=0, need_receipt=0, tax_sign=0):
@@ -254,7 +257,15 @@ class Order:
         
         #发票get_deliveryInfo api
         url = apis[1]["get_deliveryInfo"]['url'] % (order_id)
-        response = call_api.get(url, self.token)
+        status = False
+        times = 0
+        while status == False and times < 5:
+            response = call_api.get(url, self.token)
+            if (response['success'] == False):
+                status = False
+                times += 1
+            else:
+                status = True
         customerUserGroupName = response['data']['customerUserGroupName']
         customerUserGroupId = response['data']['customerUserGroupId']
         customerUserGroupCode = response['data']['customerUserGroupCode']
@@ -566,7 +577,7 @@ class Order:
         body = json.dumps(apis[2]["out_warehouse"]['body'], ensure_ascii=False) % (self.user_id, self.real_name, self.mobile, sourceOrderId, sourceOrderNo)
         call_api.post(url, body, self.token)
         
-        time.sleep(10)
+        time.sleep(20)
     
     def confirmed_delivery(self, delivery_id):
         '''
